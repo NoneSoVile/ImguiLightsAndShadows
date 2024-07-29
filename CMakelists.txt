@@ -14,6 +14,9 @@ endif()
 include_directories(
                     ${CMAKE_SOURCE_DIR}/include/imgui
                     ${CMAKE_SOURCE_DIR}/include/kinematics
+					${CMAKE_SOURCE_DIR}/include/basicRenders
+					${CMAKE_SOURCE_DIR}/include/geometryMath
+					${CMAKE_SOURCE_DIR}/include/utilities
 )
 
 include("d:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake")
@@ -22,7 +25,8 @@ find_package( OpenCV REQUIRED )
 find_package( GLFW3 REQUIRED )
 find_package( GLEW REQUIRED )
 find_package( OpenGL REQUIRED )
-
+find_package(GLM REQUIRED)
+message(STATUS "GLM included at ${GLM_INCLUDE_DIR}")
 # Add source files
 file(GLOB_RECURSE SOURCE_FILES 
    main.cpp
