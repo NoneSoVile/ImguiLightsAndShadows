@@ -17,6 +17,7 @@ include_directories(
 					${CMAKE_SOURCE_DIR}/include/basicRenders
 					${CMAKE_SOURCE_DIR}/include/geometryMath
 					${CMAKE_SOURCE_DIR}/include/utilities
+					${CMAKE_SOURCE_DIR}/include/ShadowMapping
 )
 
 include("d:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake")

@@ -8,6 +8,7 @@
 #include "Mesh3d.h"
 #include "WaterShader.h"
 #include "MatTester.h"
+#include "ShadowMappingDepth.h"
 #include <GLFW/glfw3.h>
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -137,20 +138,19 @@ int main(int, char**)
 	bool show_demo_window = true;
 	bool show_another_window = false;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
-
 	
-	ShaderTester shaderTester;
-	GeometryShaderTester geoShaderTester;
-	GaussianFilterShaderTester gaussianFilterTester;
-	PhysicsCurve curve;
-	Sprite2d sprite;
+	//ShaderTester shaderTester;
+	//GeometryShaderTester geoShaderTester;
+	//GaussianFilterShaderTester gaussianFilterTester;
+	//PhysicsCurve curve;
+	ShadowMappingDepth sprite;
+	//Sprite2d sprite;
 	//Mesh3d sprite;
 	//WaterShader sprite;
 	//shaderTester.init();
 	//geoShaderTester.init();
 	//gaussianFilterTester.init();
-	curve.init();
+	//curve.init();
 	sprite.init(screenW, screenH);
 
 	shaderTesterObj = &sprite;

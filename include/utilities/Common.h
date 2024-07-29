@@ -24,6 +24,7 @@
 #define LOGD  printf
 #define LOGE  printf
 #define PI   3.1415926f
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
 bool is_file_exist(const char* fileName);
 double getCurrentTimeSeconds();
