@@ -9,6 +9,7 @@
 #include "WaterShader.h"
 #include "MatTester.h"
 #include "ShadowMappingDepth.h"
+#include "ShadowMappingBase.h"
 #include <GLFW/glfw3.h>
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -143,7 +144,8 @@ int main(int, char**)
 	//GeometryShaderTester geoShaderTester;
 	//GaussianFilterShaderTester gaussianFilterTester;
 	//PhysicsCurve curve;
-	ShadowMappingDepth sprite;
+	//ShadowMappingDepth sprite;
+	ShadowMappingBase sprite;
 	//Sprite2d sprite;
 	//Mesh3d sprite;
 	//WaterShader sprite;

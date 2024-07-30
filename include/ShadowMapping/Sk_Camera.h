@@ -1,5 +1,5 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef SK_CAMERA_H
+#define SK_CAMERA_H
 
 #include "GLErrorDef.h"
 #include <glm/glm.hpp>
