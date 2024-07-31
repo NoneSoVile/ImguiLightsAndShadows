@@ -143,9 +143,9 @@ int main(int, char**)
 	
 	PointShadows sprite;
 	//ShaderTester shaderTester;
-	//GeometryShaderTester geoShaderTester;
+	//GeometryShaderTester sprite;
 	//GaussianFilterShaderTester gaussianFilterTester;
-	//PhysicsCurve curve;
+	//PhysicsCurve sprite;
 	//ShadowMappingDepth sprite;
 	//ShadowMappingBase sprite;
 	//Sprite2d sprite;

@@ -52,7 +52,7 @@ protected:
     void renderFrame1(int w, int h);
     void updateUI(int w, int h);
 public:
-    void init();
+    void init(float w, float h);
     void run(float w, float h);
 };
 
