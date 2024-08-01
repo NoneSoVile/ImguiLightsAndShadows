@@ -8,8 +8,19 @@ uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 model;
 out vec3 PosL;
+
+
+out VS_OUT {
+    vec3 FragPos;
+    vec3 Normal;
+    vec2 TexCoords;
+} vs_out;
                                                                                     
 void main()                                                                         
 {                                                                                   
     PosL = Position;
+
+    vs_out.Normal = transpose(inverse(mat3(model))) * Normal;
+
+    vs_out.TexCoords = TexCoord;
 }

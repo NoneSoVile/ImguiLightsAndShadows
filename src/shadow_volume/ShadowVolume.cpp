@@ -178,21 +178,23 @@ void ShadowVolume::run(float w, float h) {
     RenderSceneIntoDepth(*simpleDepthShader, w, h); CHECK_GL;
     //updateUI(w, h);
     //return;
+    //glDrawBuffer(GL_BACK);
     glEnable(GL_STENCIL_TEST);
-
+    glDepthMask(GL_FALSE);
     RenderShadowVolIntoStencil(*stencileShader, w, h); CHECK_GL;
 
+
+    
     glDrawBuffer(GL_BACK);
     // Draw only if the corresponding stencil value is zero
     glStencilFunc(GL_EQUAL, 0x0, 0xFF);
     // prevent update to the stencil buffer
     glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); CHECK_GL;
-
     glDepthMask(GL_FALSE);
     normalSceneShader->use();
-    float near_plane = 1.0f;
-    float far_plane = 25.0f;
-    glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)w / (float)h, 0.1f, 100.0f);
+    float near_plane = 0.091f;
+    float far_plane = 100.0f;
+    glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)w / (float)h, near_plane, far_plane);
     glm::mat4 view = camera.GetViewMatrix();
     normalSceneShader->setMat4("projection", projection);
     normalSceneShader->setMat4("view", view);
@@ -221,7 +223,7 @@ void ShadowVolume::RenderSceneIntoDepth(SKShader &shader, float w, float h){
     shader.setVec3("viewPos", camera.Position);
     shader.setFloat("far_plane", far_plane);
     renderScene(shader, box, w, h); CHECK_GL;
-    glDrawBuffer(GL_BACK); CHECK_GL;
+    //glDrawBuffer(GL_BACK); CHECK_GL;
 }
     
 void ShadowVolume::RenderShadowVolIntoStencil(SKShader &shader, float w, float h){
@@ -236,15 +238,15 @@ void ShadowVolume::RenderShadowVolIntoStencil(SKShader &shader, float w, float h
     // Set the stencil test per the depth fail algorithm
     glStencilOpSeparate(GL_BACK, GL_KEEP, GL_INCR_WRAP, GL_KEEP);
     glStencilOpSeparate(GL_FRONT, GL_KEEP, GL_DECR_WRAP, GL_KEEP);
-    stencileShader->use();
-    float near_plane = 0.1f;
+    shader.use();
+    float near_plane = 0.091f;
     float far_plane = 100.0f;
     glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)w / (float)h, near_plane, far_plane);
     glm::mat4 view = camera.GetViewMatrix();
-    stencileShader->setMat4("projection", projection);
-    stencileShader->setMat4("view", view);
+    shader.setMat4("projection", projection);
+    shader.setMat4("view", view);
     // set lighting uniforms
-    stencileShader->setVec3("lightPos", lightPos);
+    shader.setVec3("lightPos", lightPos);
     renderScene(shader, box_shadow_volume, w, h, true);
 
 
@@ -276,12 +278,15 @@ void ShadowVolume::renderScene(SKShader &shader, Mesh& mesh, float w, float h, b
     model = glm::scale(model, glm::vec3(0.5f));
     shader.setMat4("model", model);
     mesh.Render();
+    return;
 
     model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(2.0f, 3.0f, 1.0));
     model = glm::scale(model, glm::vec3(0.75f));
     shader.setMat4("model", model);
     mesh.Render(); CHECK_GL;
+
+    
     model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(-3.0f, -1.0f, 0.0));
     model = glm::scale(model, glm::vec3(0.5f));

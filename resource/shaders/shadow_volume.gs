@@ -14,25 +14,27 @@ uniform mat4 model;
 float EPSILON = 0.0001;
 
 // Emit a quad using a triangle strip
-void EmitQuad(vec3 StartVertex, vec3 EndVertex)
+void EmitQuad(vec3 StartVertex_local, vec3 EndVertex_local)
 {    
     mat4 mvp = projection * view * model;
+    vec4 StartVertex = model * vec4(StartVertex_local, 1.0);
+    vec4 EndVertex = model * vec4(EndVertex_local, 1.0);
     // Vertex #1: the starting vertex (just a tiny bit below the original edge)
-    vec3 LightDir = normalize(StartVertex - lightPos);   
-    gl_Position = mvp * vec4((StartVertex + LightDir * EPSILON), 1.0);
+    vec3 LightDir = normalize(StartVertex.xyz - lightPos);   
+    gl_Position = projection *  view * vec4((StartVertex.xyz + LightDir * EPSILON), 1.0);
     EmitVertex();
  
     // Vertex #2: the starting vertex projected to infinity
-    gl_Position = mvp * vec4(LightDir, 0.0);
+    gl_Position = projection *  view * vec4(LightDir, 0.0);
     EmitVertex();
     
     // Vertex #3: the ending vertex (just a tiny bit below the original edge)
-    LightDir = normalize(EndVertex - lightPos);
-    gl_Position = mvp * vec4((EndVertex + LightDir * EPSILON), 1.0);
+    LightDir = normalize(EndVertex.xyz - lightPos);
+    gl_Position = projection *  view * vec4((EndVertex.xyz + LightDir * EPSILON), 1.0);
     EmitVertex();
     
     // Vertex #4: the ending vertex projected to infinity
-    gl_Position = mvp * vec4(LightDir , 0.0);
+    gl_Position = projection *  view * vec4(LightDir , 0.0);
     EmitVertex();
 
     EndPrimitive();            
@@ -50,10 +52,17 @@ void main()
     vec3 e6 = PosL[5] - PosL[0];
 
     vec3 Normal = normalize(cross(e1,e2));
-    vec3 LightDir = normalize(lightPos - PosL[0]);
+    vec4 pos0_4 = model * vec4(PosL[0], 1.0);
+    vec4 pos2_4 = model * vec4(PosL[2], 1.0);
+    vec4 pos4_4 = model * vec4(PosL[4], 1.0);
+    vec3 pos0 = pos0_4.xyz;
+    vec3 pos2 = pos2_4.xyz;
+    vec3 pos4 = pos4_4.xyz;
+
+    vec3 LightDir = normalize(lightPos - pos0.xyz);
 
     // Handle only light facing triangles
-    if (dot(Normal, LightDir) > 0) {
+    if (dot(Normal, LightDir) > 0) { //
 
         Normal = cross(e3,e1);
 
@@ -64,7 +73,7 @@ void main()
         }
 
         Normal = cross(e4,e5);
-        LightDir = lightPos - PosL[2];
+        LightDir = lightPos - pos2.xyz;
 
         if (dot(Normal, LightDir) <= 0) {
             vec3 StartVertex = PosL[2];
@@ -73,7 +82,7 @@ void main()
         }
 
         Normal = cross(e2,e6);
-        LightDir = lightPos - PosL[4];
+        LightDir = lightPos - pos4.xyz;
 
         if (dot(Normal, LightDir) <= 0) {
             vec3 StartVertex = PosL[4];
@@ -82,29 +91,30 @@ void main()
         }
 
         // render the front cap
-        LightDir = (normalize(PosL[0] - lightPos));
-        gl_Position = mvp * vec4((PosL[0] + LightDir * EPSILON), 1.0);
+
+        LightDir = (normalize(pos0 - lightPos));
+        gl_Position = mvp * vec4((pos0 + LightDir * EPSILON), 1.0);
         EmitVertex();
 
-        LightDir = (normalize(PosL[2] - lightPos));
-        gl_Position = mvp * vec4((PosL[2] + LightDir * EPSILON), 1.0);
+        LightDir = (normalize(pos2 - lightPos));
+        gl_Position = mvp * vec4((pos2 + LightDir * EPSILON), 1.0);
         EmitVertex();
 
-        LightDir = (normalize(PosL[4] - lightPos));
-        gl_Position = mvp * vec4((PosL[4] + LightDir * EPSILON), 1.0);
+        LightDir = (normalize(pos4 - lightPos));
+        gl_Position = mvp * vec4((pos4 + LightDir * EPSILON), 1.0);
         EmitVertex();
         EndPrimitive();
  
         // render the back cap
-        LightDir = PosL[0] - lightPos;
+        LightDir = pos0 - lightPos;
         gl_Position = mvp * vec4(LightDir, 0.0);
         EmitVertex();
 
-        LightDir = PosL[4] - lightPos;
+        LightDir = pos4 - lightPos;
         gl_Position = mvp * vec4(LightDir, 0.0);
         EmitVertex();
 
-        LightDir = PosL[2] - lightPos;
+        LightDir = pos2 - lightPos;
         gl_Position = mvp * vec4(LightDir, 0.0);
         EmitVertex();
 
