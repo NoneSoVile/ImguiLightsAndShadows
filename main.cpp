@@ -10,6 +10,7 @@
 #include "MatTester.h"
 #include "ShadowMappingDepth.h"
 #include "ShadowMappingBase.h"
+#include "ShadowVolume.h"
 #include "PointShadows.h"
 #include <GLFW/glfw3.h>
 #include "imgui.h"
@@ -141,7 +142,8 @@ int main(int, char**)
 	bool show_another_window = false;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	
-	PointShadows sprite;
+	ShadowVolume sprite;
+	//PointShadows sprite;
 	//ShaderTester shaderTester;
 	//GeometryShaderTester sprite;
 	//GaussianFilterShaderTester gaussianFilterTester;

@@ -18,6 +18,7 @@ include_directories(
 					${CMAKE_SOURCE_DIR}/include/geometryMath
 					${CMAKE_SOURCE_DIR}/include/utilities
 					${CMAKE_SOURCE_DIR}/include/ShadowMapping
+					${CMAKE_SOURCE_DIR}/include/shadow_volume
 )
 
 include("d:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake")
@@ -27,6 +28,7 @@ find_package( GLFW3 REQUIRED )
 find_package( GLEW REQUIRED )
 find_package( OpenGL REQUIRED )
 find_package(GLM REQUIRED)
+find_package(ASSIMP REQUIRED)
 message(STATUS "GLM included at ${GLM_INCLUDE_DIR}")
 # Add source files
 file(GLOB_RECURSE SOURCE_FILES 
@@ -60,7 +62,7 @@ add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
 
 
 # Put all libraries into a variable
-set(LIBS ${GLFW3_LIBS} ${OPENGL_LIBRARIES}  ${GLEW_LIBRARIES} ${OpenCV_LIBS})
+set(LIBS ${GLFW3_LIBS} ${OPENGL_LIBRARIES}  ${GLEW_LIBRARIES} ${OpenCV_LIBS} ${ASSIMP_LIBRARIES})
 
 link_directories( ${OpenCV_LIB_DIR} )
 link_directories( ${GLFW3_LIB_DIR} )
