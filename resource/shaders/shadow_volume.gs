@@ -14,14 +14,13 @@ uniform mat4 model;
 float EPSILON = 0.0001;
 
 // Emit a quad using a triangle strip
-void EmitQuad(vec3 StartVertex_local, vec3 EndVertex_local)
+void EmitQuad(vec3 StartVertex, vec3 EndVertex)
 {    
     mat4 mvp = projection * view * model;
-    vec4 StartVertex = model * vec4(StartVertex_local, 1.0);
-    vec4 EndVertex = model * vec4(EndVertex_local, 1.0);
+
     // Vertex #1: the starting vertex (just a tiny bit below the original edge)
-    vec3 LightDir = normalize(StartVertex.xyz - lightPos);   
-    gl_Position = projection *  view * vec4((StartVertex.xyz + LightDir * EPSILON), 1.0);
+    vec3 LightDir = normalize(StartVertex - lightPos);   
+    gl_Position = projection *  view * vec4((StartVertex + LightDir * EPSILON), 1.0);
     EmitVertex();
  
     // Vertex #2: the starting vertex projected to infinity
@@ -29,8 +28,8 @@ void EmitQuad(vec3 StartVertex_local, vec3 EndVertex_local)
     EmitVertex();
     
     // Vertex #3: the ending vertex (just a tiny bit below the original edge)
-    LightDir = normalize(EndVertex.xyz - lightPos);
-    gl_Position = projection *  view * vec4((EndVertex.xyz + LightDir * EPSILON), 1.0);
+    LightDir = normalize(EndVertex - lightPos);
+    gl_Position = projection *  view * vec4((EndVertex + LightDir * EPSILON), 1.0);
     EmitVertex();
     
     // Vertex #4: the ending vertex projected to infinity
@@ -59,7 +58,7 @@ void main()
     vec3 pos2 = pos2_4.xyz;
     vec3 pos4 = pos4_4.xyz;
 
-    vec3 LightDir = normalize(lightPos - pos0.xyz);
+    vec3 LightDir = normalize(lightPos - pos0);
 
     // Handle only light facing triangles
     if (dot(Normal, LightDir) > 0) { //
@@ -67,26 +66,26 @@ void main()
         Normal = cross(e3,e1);
 
         if (dot(Normal, LightDir) <= 0) {
-            vec3 StartVertex = PosL[0];
-            vec3 EndVertex = PosL[2];
+            vec3 StartVertex = pos0.xyz;
+            vec3 EndVertex = pos2;
             EmitQuad(StartVertex, EndVertex);
         }
 
         Normal = cross(e4,e5);
-        LightDir = lightPos - pos2.xyz;
+        LightDir = lightPos - pos2;
 
         if (dot(Normal, LightDir) <= 0) {
-            vec3 StartVertex = PosL[2];
-            vec3 EndVertex = PosL[4];
+            vec3 StartVertex = pos2;
+            vec3 EndVertex = pos4;
             EmitQuad(StartVertex, EndVertex);
         }
 
         Normal = cross(e2,e6);
-        LightDir = lightPos - pos4.xyz;
+        LightDir = lightPos - pos4;
 
         if (dot(Normal, LightDir) <= 0) {
-            vec3 StartVertex = PosL[4];
-            vec3 EndVertex = PosL[0];
+            vec3 StartVertex = pos4;
+            vec3 EndVertex = pos0;
             EmitQuad(StartVertex, EndVertex);
         }
 

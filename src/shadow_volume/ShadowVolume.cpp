@@ -134,7 +134,7 @@ void ShadowVolume::updateUI(int w, int h) {
         if(ret){
             camera.RotateCameraByMouseMove(0, 0, modelTranslation);
         }
-
+        ImGui::Checkbox("use shadow volume", &useShadowVolume);
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
         ImGui::End();
     }
@@ -186,13 +186,17 @@ void ShadowVolume::run(float w, float h) {
 
     
     glDrawBuffer(GL_BACK);
-    // Draw only if the corresponding stencil value is zero
-    glStencilFunc(GL_EQUAL, 0x0, 0xFF);
-    // prevent update to the stencil buffer
-    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); CHECK_GL;
+
+    if (useShadowVolume)
+    {
+        glStencilFunc(GL_EQUAL, 0x0, 0xFF);    // Draw only if the corresponding stencil value is zero       
+        glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);// prevent update to the stencil buffer
+        CHECK_GL;
+    }
+
     glDepthMask(GL_FALSE);
     normalSceneShader->use();
-    float near_plane = 0.091f;
+    float near_plane = 0.1f;
     float far_plane = 100.0f;
     glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)w / (float)h, near_plane, far_plane);
     glm::mat4 view = camera.GetViewMatrix();
@@ -239,7 +243,7 @@ void ShadowVolume::RenderShadowVolIntoStencil(SKShader &shader, float w, float h
     glStencilOpSeparate(GL_BACK, GL_KEEP, GL_INCR_WRAP, GL_KEEP);
     glStencilOpSeparate(GL_FRONT, GL_KEEP, GL_DECR_WRAP, GL_KEEP);
     shader.use();
-    float near_plane = 0.091f;
+    float near_plane = 0.09f;
     float far_plane = 100.0f;
     glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)w / (float)h, near_plane, far_plane);
     glm::mat4 view = camera.GetViewMatrix();
@@ -264,43 +268,50 @@ void ShadowVolume::renderScene(SKShader &shader, Mesh& mesh, float w, float h, b
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::scale(model, glm::vec3(29.0f));
     shader.setMat4("model", model);
+    glDisable(GL_CULL_FACE); CHECK_GL; // note that we disable culling here since we render 'inside' the cube instead of the usual 'outside' which throws off the normal culling methods.
+    shader.setInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
+    float scaleVar = 1.0;
     if (!isShadowVolume) {
-        glDisable(GL_CULL_FACE); CHECK_GL; // note that we disable culling here since we render 'inside' the cube instead of the usual 'outside' which throws off the normal culling methods.
-        shader.setInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
         mesh.Render(); CHECK_GL;
-        shader.setInt("reverse_normals", 0); // and of course disable it
-        glEnable(GL_CULL_FACE); CHECK_GL;
+    }
+    
+    shader.setInt("reverse_normals", 0); // and of course disable it
+    glEnable(GL_CULL_FACE); CHECK_GL;
+
+    if (isShadowVolume) {
+        scaleVar = 1.1;
+        glDisable(GL_CULL_FACE); CHECK_GL; // note that we disable culling here since we render 'inside' the cube instead of the usual 'outside' which throws off the normal culling methods.
     }
 
     // cubes
     model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(4.0f, -3.5f, 0.0));
-    model = glm::scale(model, glm::vec3(0.5f));
+    model = glm::scale(model, glm::vec3(0.5f)) * scaleVar;
     shader.setMat4("model", model);
     mesh.Render();
-    return;
+
 
     model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(2.0f, 3.0f, 1.0));
-    model = glm::scale(model, glm::vec3(0.75f));
+    model = glm::scale(model, glm::vec3(0.75f)) * scaleVar;
     shader.setMat4("model", model);
     mesh.Render(); CHECK_GL;
 
     
     model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(-3.0f, -1.0f, 0.0));
-    model = glm::scale(model, glm::vec3(0.5f));
+    model = glm::scale(model, glm::vec3(0.5f)) * scaleVar;
     shader.setMat4("model", model);
     mesh.Render();
     model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(-1.5f, 1.0f, 1.5));
-    model = glm::scale(model, glm::vec3(0.5f));
+    model = glm::scale(model, glm::vec3(0.5f)) * scaleVar;
     shader.setMat4("model", model);
     mesh.Render();
     model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(-1.5f, 2.0f, -3.0));
     model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
-    model = glm::scale(model, glm::vec3(0.75f));
+    model = glm::scale(model, glm::vec3(0.75f)) * scaleVar;
     shader.setMat4("model", model);
     mesh.Render();
 }

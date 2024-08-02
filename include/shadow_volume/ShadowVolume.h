@@ -57,6 +57,7 @@ protected:
     SKCamera camera;
     Mesh box;
     Mesh box_shadow_volume;
+    bool useShadowVolume = false;
 
 protected:
     virtual void loadVars();
