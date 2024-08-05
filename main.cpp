@@ -13,6 +13,7 @@
 #include "ShadowVolume.h"
 #include "PointShadows.h"
 #include "LightingMap.h"
+#include "NormalMapping.h"
 #include <GLFW/glfw3.h>
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -146,7 +147,8 @@ int main(int, char**)
 	bool show_another_window = false;
 	ImVec4 clear_color = ImVec4(0.f, 0.f, 0.f, 1.00f);
 	
-	LightingMap sprite;
+	NormalMapping sprite;
+	//LightingMap sprite;
 	//ShadowVolume sprite;
 	//PointShadows sprite;
 	//ShaderTester shaderTester;
