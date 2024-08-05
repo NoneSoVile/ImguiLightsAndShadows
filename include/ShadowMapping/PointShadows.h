@@ -54,6 +54,9 @@ protected:
     unsigned int depthCubemap;
     glm::vec3 lightPos;
     SKCamera camera;
+    // timing
+    float deltaTime = 0.0f;
+    float lastFrame = 0.0f;
 
 protected:
     virtual void loadVars();
@@ -69,7 +72,7 @@ protected:
     void renderQuad();
 
     std::shared_ptr<SKShader> createSKShader(std::string vsFile, std::string fsFile, std::string gsFile);
-
+    virtual void processInput(GLFWwindow *window);
 
 public:
     virtual void init(int w, int h);
@@ -81,6 +84,7 @@ public:
 
     virtual void onScroll(float dxScreen, float dyScreen);
 	virtual void onFling(float vx, float vy);
+    
 
 
 };

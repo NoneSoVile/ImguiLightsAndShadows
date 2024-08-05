@@ -1,6 +1,7 @@
 #pragma once
 #include "Common.h"
 #include "RenderState.h"
+#include <GLFW/glfw3.h>
 #include <string>
 using std::string;
 class Shader;
@@ -12,7 +13,12 @@ public:
 	virtual void onFling(float vx, float vy){}
 };
 
-class ShaderTester: public RenderState, public MouseEvent
+class KeyEvent{
+public:
+    virtual void processInput(GLFWwindow *window){}
+};
+
+class ShaderTester: public RenderState, public MouseEvent, public KeyEvent
 {
 protected:
 

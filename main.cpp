@@ -72,6 +72,9 @@ bool runTester = false;
 bool drawTester = true;
 
 ShaderTester* shaderTesterObj = nullptr;
+// timing
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
 
 // Main code
 int main(int, char**)
@@ -142,8 +145,8 @@ int main(int, char**)
 	bool show_another_window = false;
 	ImVec4 clear_color = ImVec4(0.f, 0.f, 0.f, 1.00f);
 	
-	ShadowVolume sprite;
-	//PointShadows sprite;
+	//ShadowVolume sprite;
+	PointShadows sprite;
 	//ShaderTester shaderTester;
 	//GeometryShaderTester sprite;
 	//GaussianFilterShaderTester gaussianFilterTester;
@@ -175,6 +178,10 @@ int main(int, char**)
 	{
 		glfwPollEvents();
 
+		if (shaderTesterObj)
+		{
+			shaderTesterObj->processInput(window);
+		}
 		// Start the Dear ImGui frame
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -220,6 +227,7 @@ static std::map<int32_t, Key::Enum> sKeyCodeRemap;
 static void glfw_key(GLFWwindow* window, int32_t k, int32_t s, int32_t action, int32_t mods)
 {
 	bool handled = false;
+
 
 	Key::Enum nvkey = Key::K_UNKNOWN;
 	std::map<int32_t, Key::Enum>::const_iterator remap = sKeyCodeRemap.find(k);
