@@ -14,6 +14,7 @@
 #include "PointShadows.h"
 #include "LightingMap.h"
 #include "NormalMapping.h"
+#include "Bloom.h"
 #include <GLFW/glfw3.h>
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -49,8 +50,8 @@ using namespace cv;
 using namespace std;
 using cv::COLOR_RGB2BGRA;
 
-#define WINDOW_WIDTH 2300
-#define WINDOW_HEIGHT 1360
+#define WINDOW_WIDTH 2000
+#define WINDOW_HEIGHT 1300
 
 #define VIDEO_WIDTH 1280
 #define VIDEO_HEIGHT 960
@@ -147,7 +148,8 @@ int main(int, char**)
 	bool show_another_window = false;
 	ImVec4 clear_color = ImVec4(0.f, 0.f, 0.f, 1.00f);
 	
-	NormalMapping sprite;
+	Bloom sprite;
+	//NormalMapping sprite;
 	//LightingMap sprite;
 	//ShadowVolume sprite;
 	//PointShadows sprite;

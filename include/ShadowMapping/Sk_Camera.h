@@ -102,6 +102,11 @@ public:
         updateCameraVectors();
     }
 
+    void moveCamera(glm::vec3 translation){
+        Position = translation;
+        updateCameraVectors();
+    }
+
 
     void RotateCameraByMouseMove(float xoffset, float yoffset, glm::vec3 target= glm::vec3(0), GLboolean constrainPitch = true)
     {

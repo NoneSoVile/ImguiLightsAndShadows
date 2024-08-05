@@ -21,6 +21,7 @@ include_directories(
 					${CMAKE_SOURCE_DIR}/include/shadow_volume
 					${CMAKE_SOURCE_DIR}/include/lightingmaps
 					${CMAKE_SOURCE_DIR}/include/normalmapping
+					${CMAKE_SOURCE_DIR}/include/bloom
 )
 
 include("d:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake")
