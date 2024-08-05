@@ -66,7 +66,7 @@ void main()
         Normal = cross(e3,e1);
 
         if (dot(Normal, LightDir) <= 0) {
-            vec3 StartVertex = pos0.xyz;
+            vec3 StartVertex = pos0;
             vec3 EndVertex = pos2;
             EmitQuad(StartVertex, EndVertex);
         }

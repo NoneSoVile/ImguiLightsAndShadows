@@ -8,7 +8,7 @@ if( NOT CMAKE_CL_64 )
 else()
   set(GLFW3_LIBS "D:/vcpkg/vcpkg/installed/x64-windows/lib/glfw3dll.lib" )
 endif()
-
+set(CMAKE_CXX_STANDARD 17)
 
 
 include_directories(
@@ -19,6 +19,7 @@ include_directories(
 					${CMAKE_SOURCE_DIR}/include/utilities
 					${CMAKE_SOURCE_DIR}/include/ShadowMapping
 					${CMAKE_SOURCE_DIR}/include/shadow_volume
+					${CMAKE_SOURCE_DIR}/include/lightingmaps
 )
 
 include("d:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake")
