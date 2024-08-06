@@ -36,7 +36,7 @@ protected:
     unsigned int gBuffer;
     unsigned int gPosition, gNormal, gAlbedoSpec;
 
-    const unsigned int NR_LIGHTS = 232;
+    const unsigned int NR_LIGHTS = 64;
     std::vector<glm::vec3> lightPositions;
     std::vector<glm::vec3> lightColors;
 
