@@ -24,6 +24,7 @@ include_directories(
 					${CMAKE_SOURCE_DIR}/include/bloom
 					${CMAKE_SOURCE_DIR}/include/deferred_shading
 					${CMAKE_SOURCE_DIR}/include/ssao
+					${CMAKE_SOURCE_DIR}/include/pbr
 )
 
 include("d:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake")
