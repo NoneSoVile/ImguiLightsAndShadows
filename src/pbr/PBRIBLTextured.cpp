@@ -117,8 +117,13 @@ void PBRIBLTextured::loadShader(){
 
 }
 
+void PBRIBLTextured::loadfbxMesh(){
+    ourModel = new SKModel("resource/models/Cerberus_LP.FBX");
+}
+
 void PBRIBLTextured::loadMesh()
 {
+    loadfbxMesh();
         // configure global opengl state
     // -----------------------------
     glEnable(GL_DEPTH_TEST);
@@ -380,6 +385,13 @@ void PBRIBLTextured::loadTexture()
     wallMetallicMap = loadTexture(("resource/images/pbr/wall/metallic.png"));
     wallRoughnessMap = loadTexture(("resource/images/pbr/wall/roughness.png"));
     wallAOMap = loadTexture(("resource/images/pbr/wall/ao.png"));
+
+    //cerberus
+    cerberusAlbedoMap = loadTexture(("resource/images/Cerberus/Textures/Cerberus_A.tga"));
+    cerberusNormalMap = loadTexture(("resource/images/Cerberus/Textures/Cerberus_N.tga"));
+    cerberusMetallicMap = loadTexture(("resource/images/Cerberus/Textures/Cerberus_M.tga"));
+    cerberusRoughnessMap = loadTexture(("resource/images/Cerberus/Textures/Cerberus_R.tga"));
+    cerberusAOMap = loadTexture(("resource/images/Cerberus/Textures/Cerberus_AO.tga"));
  
 }
 
@@ -513,6 +525,26 @@ void PBRIBLTextured::run(float w, float h)
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, brdfLUTTexture);
 
+
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, cerberusAlbedoMap);
+    glActiveTexture(GL_TEXTURE4);
+    glBindTexture(GL_TEXTURE_2D, cerberusNormalMap);
+    glActiveTexture(GL_TEXTURE5);
+    glBindTexture(GL_TEXTURE_2D, cerberusMetallicMap);
+    glActiveTexture(GL_TEXTURE6);
+    glBindTexture(GL_TEXTURE_2D, cerberusRoughnessMap);
+    glActiveTexture(GL_TEXTURE7);
+    glBindTexture(GL_TEXTURE_2D, cerberusAOMap);
+    model = glm::mat4(0.1f);
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::translate(model, glm::vec3(-8.0, 134.0, 44.0));
+    pbrShader->setMat4("model", model);
+    if (ourModel) {
+        ourModel->Draw(*pbrShader);
+    }
+
     // rusted iron
     glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D, ironAlbedoMap);
@@ -524,6 +556,10 @@ void PBRIBLTextured::run(float w, float h)
     glBindTexture(GL_TEXTURE_2D, ironRoughnessMap);
     glActiveTexture(GL_TEXTURE7);
     glBindTexture(GL_TEXTURE_2D, ironAOMap);
+
+
+
+
 
     model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(-5.0, 0.0, 2.0));

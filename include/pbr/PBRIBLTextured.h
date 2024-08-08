@@ -27,6 +27,8 @@ public:
 
 
 protected:
+    SKModel* ourModel;
+
     std::shared_ptr<SKShader> pbrShader;
     std::shared_ptr<SKShader> equirectangularToCubemapShader;
     std::shared_ptr<SKShader> irradianceShader;
@@ -82,6 +84,13 @@ protected:
     unsigned int wallRoughnessMap;
     unsigned int wallAOMap;
 
+    //cerberus
+    unsigned int cerberusAlbedoMap;
+    unsigned int cerberusNormalMap;
+    unsigned int cerberusMetallicMap;
+    unsigned int cerberusRoughnessMap;
+    unsigned int cerberusAOMap;
+
 
     unsigned int sphereVAO = 0;
     unsigned int indexCount;
@@ -113,6 +122,8 @@ protected:
     virtual void loadMesh();
     virtual void loadTexture();
     unsigned int loadTexture(char const * path, bool relativeToAbsolute = true);
+
+    void loadfbxMesh();
 
     virtual void updateUI(int w, int h);
     virtual void drawSprite(int w, int h, vec2f offset);
