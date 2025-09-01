@@ -59,9 +59,9 @@ std::shared_ptr<SKShader> SSAO::createSKShader(std::string vsFile, std::string f
 
 void SSAO::loadVars() {
 	lightPos = glm::vec3(1.2f, 1.0f, 2.0f);
-    camera = SKCamera(glm::vec3(0.0f, 0.0f, 5.0f));
+    camera = SKCamera(glm::vec3(0.0f, 0.0f, 18.0f));
     lookAt = glm::vec3(0.0f, 0.0f, 0.0f);
-    cameraTranslation = glm::vec3(0.0f, 5.4f, 0.0f);
+    cameraTranslation = glm::vec3(0.0f, 2.4f, 13.f);
     lightPos = glm::vec3(2.0, 4.0, -2.0);
     lightColor = glm::vec3(0.2, 0.2, 0.7);
 }
@@ -105,7 +105,7 @@ void SSAO::loadShader(){
 
 void SSAO::loadMesh()
 {
-    backpack.loadModel("resource/models/backpack.obj");
+    backpack.loadModel("resource/models/geometry.obj");
     glGenFramebuffers(1, &gBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
     // position color buffer
@@ -330,7 +330,7 @@ void SSAO::run(float w, float h)
     model = glm::scale(model, glm::vec3(7.5f, 7.5f, 7.5f));
     shaderGeometryPass->setMat4("model", model);
     shaderGeometryPass->setInt("invertedNormals", 1); // invert normals as we're inside the cube
-    renderCube();
+    //renderCube();
     shaderGeometryPass->setInt("invertedNormals", 0);
     // backpack model on the floor
     model = glm::mat4(1.0f);

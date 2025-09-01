@@ -13,12 +13,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <Sk_Shader.h>
-#include <Sk_Camera.h>
+#include <SK_Shader.h>
+#include <SK_Camera.h>
 #include "Common.h"
+#include "geometryMath/Vector.h"
 #include <iostream>
 #include <filesystem>
 #include <random>
+using MB::vec2f;
 class Shader;
 
 PBRIBLSpecular::PBRIBLSpecular(): lightPositions{ 
@@ -486,8 +488,8 @@ void PBRIBLSpecular::run(float w, float h)
 
             model = glm::mat4(1.0f);
             model = glm::translate(model, glm::vec3(
-                                              (float)(col - (nrColumns / 2)) * spacing,
-                                              (float)(row - (nrRows / 2)) * spacing,
+                                              (float)(col - (nrColumns / 2.0)) * spacing,
+                                              (float)(row - (nrRows / 2.0)) * spacing,
                                               -2.0f));
             pbrShader->setMat4("model", model);
             renderSphere();

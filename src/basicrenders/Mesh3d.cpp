@@ -64,7 +64,7 @@ void Mesh3d::loadShader() {
 }
 
 void Mesh3d::loadMesh() {
-    string waterModelFile = resourceFolder + "models/plane300x300.obj";
+    string waterModelFile = resourceFolder + "models/plane100x100.obj";
     waterModel.reset((ModelObj*)ModelObj::CreateFromObjFile(waterModelFile.c_str(), 1.0f, false, false, false));
     if (!waterModel) {
         printf("failed to load water model object: %s \n", waterModelFile.c_str());

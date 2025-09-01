@@ -165,17 +165,14 @@ int main(int, char**)
 	//PointShadows sprite;
 	//ShaderTester shaderTester;
 	//GeometryShaderTester sprite;
-	//GaussianFilterShaderTester gaussianFilterTester;
+	//GaussianFilterShaderTester sprite;
 	//PhysicsCurve sprite;
 	//ShadowMappingDepth sprite;
 	//ShadowMappingBase sprite;
 	//Sprite2d sprite;
 	//Mesh3d sprite;
 	//WaterShader sprite;
-	//shaderTester.init();
-	//geoShaderTester.init();
-	//gaussianFilterTester.init();
-	//curve.init();
+
 
 	
 	sprite.init(screenW, screenH);

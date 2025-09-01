@@ -1,0 +1,23 @@
+CompileFlags:
+  Add: [
+    "-I", "d:/github/ImguiLightsAndShadows/include",
+    "-I", "d:/github/ImguiLightsAndShadows/include/imgui",
+    "-I", "d:/github/ImguiLightsAndShadows/include/kinematics",
+    "-I", "d:/github/ImguiLightsAndShadows/include/basicRenders",
+    "-I", "d:/github/ImguiLightsAndShadows/include/geometryMath",
+    "-I", "d:/github/ImguiLightsAndShadows/include/utilities",
+    "-I", "d:/github/ImguiLightsAndShadows/include/ShadowMapping",
+    "-I", "d:/github/ImguiLightsAndShadows/include/shadow_volume",
+    "-I", "d:/github/ImguiLightsAndShadows/include/lightingmaps",
+    "-I", "d:/github/ImguiLightsAndShadows/include/normalmapping",
+    "-I", "d:/github/ImguiLightsAndShadows/include/bloom",
+    "-I", "d:/github/ImguiLightsAndShadows/include/deferred_shading",
+    "-I", "d:/github/ImguiLightsAndShadows/include/ssao",
+    "-I", "d:/github/ImguiLightsAndShadows/include/pbr",
+    "-I", "d:/github/ImguiLightsAndShadows/include/3dmodel_loader",
+    "-I", "d:/vcpkg/vcpkg/installed/x64-windows/include",
+    "-std=c++17",
+    "-DWIN32",
+    "-D_WINDOWS",
+    "-D_CRT_SECURE_NO_WARNINGS"
+  ]

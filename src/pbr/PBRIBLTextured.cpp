@@ -13,12 +13,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <Sk_Shader.h>
-#include <Sk_Camera.h>
+#include <SK_Shader.h>
+#include <SK_Camera.h>
 #include "Common.h"
+#include "geometryMath/Vector.h"
 #include <iostream>
 #include <filesystem>
 #include <random>
+using MB::vec2f;
 class Shader;
 
 PBRIBLTextured::PBRIBLTextured(): lightPositions{ 
